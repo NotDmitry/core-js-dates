@@ -69,8 +69,12 @@ function getDayName(date) {
  * Date('2024-02-13T00:00:00Z') => Date('2024-02-16T00:00:00Z')
  * Date('2024-02-16T00:00:00Z') => Date('2024-02-23T00:00:00Z')
  */
-function getNextFriday(/* date */) {
-  throw new Error('Not implemented');
+function getNextFriday(date) {
+  const MS_IN_DAY = 86400e3;
+  const FRIDAY_INDEX = 6;
+  const dateIndex = (date.getDay() + 1) % 7;
+  const deltaDays = FRIDAY_INDEX - dateIndex;
+  return new Date(date.getTime() + (deltaDays || 7) * MS_IN_DAY);
 }
 
 /**
