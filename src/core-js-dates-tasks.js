@@ -172,8 +172,24 @@ function formatDate(date) {
  * 12, 2023 => 10
  * 1, 2024 => 8
  */
-function getCountWeekendsInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountWeekendsInMonth(month, year) {
+  const startDate = new Date(year, month - 1);
+  const endDate = new Date(year, month, 0);
+  let sum = 0;
+
+  const startDateIndex = (startDate.getDay() + 5) % 7;
+  const daysUntilFirstMonday = 6 - startDateIndex;
+  sum += daysUntilFirstMonday <= 2 ? daysUntilFirstMonday : 2;
+  startDate.setDate(startDate.getDate() + daysUntilFirstMonday);
+
+  const daysFromLastSunday = endDate.getDay();
+  sum += daysFromLastSunday === 6 ? 1 : 0;
+  endDate.setDate(endDate.getDate() - daysFromLastSunday);
+
+  const fullWeeks = Math.floor(
+    (endDate.getDate() - startDate.getDate() + 1) / 7
+  );
+  return sum + fullWeeks * 2;
 }
 
 /**
